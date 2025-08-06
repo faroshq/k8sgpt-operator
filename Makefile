@@ -57,6 +57,27 @@ list:
 generate: controller-gen ## Generate code containing DeepCopy, DeepCopyInto, and DeepCopyObject method implementations.
 	$(CONTROLLER_GEN) object:headerFile="hack/boilerplate.go.txt" paths="./..."
 
+TOOLS_BIN_DIR := $(shell pwd)/bin
+GO_INSTALL = ./hack/go-install.sh
+
+
+KCP_APIGEN_VER := v0.28.0
+KCP_APIGEN_BIN := apigen
+KCP_APIGEN_GEN := $(TOOLS_BIN_DIR)/$(KCP_APIGEN_BIN)-$(KCP_APIGEN_VER)
+export KCP_APIGEN_GEN # so hack scripts can use it
+
+
+
+$(KCP_APIGEN_GEN):
+	GOBIN=$(TOOLS_BIN_DIR) $(GO_INSTALL) github.com/kcp-dev/kcp/sdk/cmd/apigen $(KCP_APIGEN_BIN) $(KCP_APIGEN_VER)
+
+.PHONY: tools
+tools: $(KCP_APIGEN_GEN)
+
+kcp-generate: tools
+	${KCP_APIGEN_GEN} --input-dir config/crd/bases --output-dir config/kcp
+
+
 .PHONY: fmt
 fmt: ## Run go fmt against code.
 	go fmt ./...

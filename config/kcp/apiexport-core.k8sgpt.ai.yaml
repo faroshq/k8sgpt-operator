@@ -1,0 +1,23 @@
+apiVersion: apis.kcp.io/v1alpha2
+kind: APIExport
+metadata:
+  creationTimestamp: null
+  name: core.k8sgpt.ai
+spec:
+  resources:
+  - group: core.k8sgpt.ai
+    name: k8sgpts
+    schema: v250806-7526608.k8sgpts.core.k8sgpt.ai
+    storage:
+      crd: {}
+  - group: core.k8sgpt.ai
+    name: mutations
+    schema: v250806-7526608.mutations.core.k8sgpt.ai
+    storage:
+      crd: {}
+  - group: core.k8sgpt.ai
+    name: results
+    schema: v250806-7526608.results.core.k8sgpt.ai
+    storage:
+      crd: {}
+status: {}
